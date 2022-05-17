@@ -1,0 +1,23 @@
+{
+  "name": "js-30day",
+  "version": "1.0.0",
+  "description": "JavaScript 30 Day Challenge.",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "sass": "sass main.scss style.css"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/cc5324/JS-30Day.git"
+  },
+  "author": "angela",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/cc5324/JS-30Day/issues"
+  },
+  "homepage": "https://github.com/cc5324/JS-30Day#readme",
+  "devDependencies": {
+    "sass": "^1.51.0"
+  }
+}
