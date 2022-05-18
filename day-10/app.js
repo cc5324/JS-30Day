@@ -7,16 +7,22 @@ function main() {
   // let c = "go";
 
   checkboxes.forEach((checkbox) =>
-    checkbox.addEventListener("click", getBetweenChecked)
+    checkbox.addEventListener("click", function (event) {
+      getBetweenChecked.call(this, event, lastChecked);
+      lastChecked = this;
+    })
   );
 }
 
-function getBetweenChecked(event) {
+function getBetweenChecked(event, lastChecked) {
+  console.log(`lastChecked`, lastChecked);
+  console.log(`this`, this);
+
   let inBetween = false;
   const checkboxes = document.querySelectorAll("input[type='checkbox']");
   // console.log(event);
-  // console.log(event.shiftKey);
-  // console.log(this.checked);
+  console.log(event.shiftKey);
+  console.log(this.checked);
 
   if (event.shiftKey && this.checked) {
     checkboxes.forEach((checkbox) => {
@@ -29,9 +35,9 @@ function getBetweenChecked(event) {
     });
   }
 
-  lastChecked = this;
-  console.log(`lastChecked`, lastChecked);
-  console.log(`this`, this);
+  // lastChecked = this;
+  // console.log(`lastChecked`, lastChecked);
+  // console.log(`this`, this);
   // console.log(`local c`, c);
 }
 
