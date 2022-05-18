@@ -72,3 +72,9 @@ body {
 .minute-hand.background-night {
   background: linear-gradient(90deg, transparent 0 15%, white 15% 100%);
 }
+
+html.background-night {
+  background: url(https://images.unsplash.com/photo-1514897575457-c4db467cf78e?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1170&q=80)
+    no-repeat center;
+  background-size: cover;
+}

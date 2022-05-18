@@ -8,27 +8,8 @@ function main() {
   // const html = document.querySelector("html");
   const html = document.documentElement;
 
-  setInterval(setDate, 1000);
-
-  function setDate() {
-    const DEFAULT_DEGREE = 90;
-    const now = new Date();
-
-    const seconds = now.getSeconds();
-    const secondsDegree = (360 / 60) * seconds + DEFAULT_DEGREE;
-    preventCounterclockwise(secondHand, secondsDegree);
-    secondHand.style.transform = `rotate(${secondsDegree}deg)`;
-
-    const minutes = now.getMinutes();
-    const minutesDegree = (360 / 60) * minutes + DEFAULT_DEGREE;
-    preventCounterclockwise(minuteHand, minutesDegree);
-    minuteHand.style.transform = `rotate(${minutesDegree}deg)`;
-
-    const hours = now.getHours();
-    const hoursDegree = (360 / 12) * (hours % 12) + DEFAULT_DEGREE;
-    preventCounterclockwise(hourHand, hoursDegree);
-    hourHand.style.transform = `rotate(${hoursDegree}deg)`;
-  }
+  const hands = [secondHand, minuteHand, hourHand];
+  setInterval(setDate.bind(null, hands), 1000);
 
   const nightBackgroundElements = [
     clock,
@@ -40,8 +21,38 @@ function main() {
   setInterval(setDayNightBackground(nightBackgroundElements), 3600000);
 }
 
-function preventCounterclockwise(element, degree) {
-  if (degree === 90) {
+function setDate([secondHand, minuteHand, hourHand]) {
+  // console.log("doing");
+  // const DEFAULT_DEGREE = 90;
+  const now = new Date();
+
+  const seconds = now.getSeconds();
+  const secondsDegree = getTimeDegree(seconds, 60);
+  // const secondsDegree = (360 / 60) * seconds + DEFAULT_DEGREE;
+  preventCounterclockwise(secondHand, secondsDegree);
+  secondHand.style.transform = `rotate(${secondsDegree}deg)`;
+
+  const minutes = now.getMinutes();
+  const minutesDegree = getTimeDegree(minutes, 60);
+  // const minutesDegree = (360 / 60) * minutes + DEFAULT_DEGREE;
+  preventCounterclockwise(minuteHand, minutesDegree);
+  minuteHand.style.transform = `rotate(${minutesDegree}deg)`;
+
+  const hours = now.getHours();
+  const hoursDegree = getTimeDegree(hours, 12);
+  // const hoursDegree = (360 / 12) * (hours % 12) + DEFAULT_DEGREE;
+  preventCounterclockwise(hourHand, hoursDegree);
+  hourHand.style.transform = `rotate(${hoursDegree}deg)`;
+}
+
+function getTimeDegree(timeUnit, timeUnitPeriod, DEFAULT_DEGREE = 90) {
+  // const DEFAULT_DEGREE = 90;
+  return (360 / timeUnitPeriod) * timeUnit + DEFAULT_DEGREE;
+}
+
+function preventCounterclockwise(element, degree, DEFAULT_DEGREE = 90) {
+  // const DEFAULT_DEGREE = 90;
+  if (degree === DEFAULT_DEGREE) {
     element.style.transition = `all 0s`;
   } else {
     element.style.transition = `all 0.05s ease-out`;
