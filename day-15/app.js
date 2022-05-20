@@ -1,43 +1,22 @@
-// main();
+main();
 
-// function main() {
+function main() {
+  const addItems = document.querySelector(".add-items");
+  const itemsList = document.querySelector(".plates");
+  populateList("items", itemsList);
 
-// }
+  addItems.addEventListener("submit", function (event) {
+    addItem.call(this, event);
+    populateList("items", itemsList);
+  });
 
-const addItems = document.querySelector(".add-items");
-const itemsList = document.querySelector(".plates");
-const items = JSON.parse(localStorage.getItem("items")) || [];
-
-addItems.addEventListener("submit", addItem);
-
-function addItem(event) {
-  //阻止 form 表單的預設行為 > 送出 > reload
-  event.preventDefault();
-
-  const text = this.querySelector("input[name=item]").value;
-  const item = {
-    text,
-    done: false,
-  };
-
-  items.push(item);
-  populateList(items, itemsList);
-  localStorage.setItem("items", JSON.stringify(items));
-  //.setItem
-  //.getItem
-  //.removeItem
-  //要給 localStorage string
-  //JSON.stringify
-  //要轉回來用 JSON.parse
-
-  // console.log(items);
-  //form 這個元素本身有的 method
-  this.reset();
+  itemsList.addEventListener("click", toggleDone);
 }
 
-//預設空陣列，如果沒有傳東西進去，也不會報錯中斷
-function populateList(plates = [], platesList) {
-  const newItem = plates
+function populateList(plates, platesList) {
+  //預設空陣列，如果沒有傳東西進去，也不會報錯中斷
+  const items = getLocalStorageData(plates) || [];
+  const refreshListItems = items
     .map((plate, index) => {
       return `
     <li>
@@ -49,24 +28,43 @@ function populateList(plates = [], platesList) {
     `;
     })
     .join("");
-  platesList.innerHTML = newItem;
-  // console.log(newItem);
+  platesList.innerHTML = refreshListItems;
 }
 
-//input 的 id 跟 label 的 for 可利用相同名稱聯動
+function getLocalStorageData(dataName) {
+  return JSON.parse(localStorage.getItem(dataName));
+}
 
-populateList(items, itemsList);
+function addItem(event) {
+  //阻止 form 表單的預設行為 > 送出 > reload
+  event.preventDefault();
+
+  const text = this.querySelector("input[name=item]").value;
+  const item = {
+    text,
+    done: false,
+  };
+
+  const items = getLocalStorageData("items") || [];
+  items.push(item);
+
+  localStorage.setItem("items", JSON.stringify(items));
+
+  //form 這個元素本身有的 method
+  this.reset();
+}
 
 //點擊 checkbox 的時候會同時點到 label，我們只需要確定觸發的 checkbox 即可
 function toggleDone(event) {
+  //理論上不會拿到空陣列，所以沒有做預設處理
+  const items = getLocalStorageData("items");
+  const itemsList = document.querySelector(".plates");
+
   if (!event.target.matches("input")) return;
-  // console.log(event, event.target);
+
   const item = event.target;
   const index = item.dataset.index;
   items[index].done = !items[index].done;
   localStorage.setItem("items", JSON.stringify(items));
-  populateList(items, itemsList);
-  console.log(items);
+  populateList("items", itemsList);
 }
-
-itemsList.addEventListener("click", toggleDone);
