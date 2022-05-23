@@ -1,6 +1,6 @@
 1. style checkboxes
 
-2. 插入新的元素
+2. 插入新的元素: innerHTML
 
 to optimize:
 
@@ -20,3 +20,6 @@ checkBoxes.forEach((input) =>
 在新增之前，這串程式碼就跑完了，所以新增的 item 都不會被監聽到
 
 所以要把監聽器綁在會一直存在的東西上面，通常是他們的父元素
+
+4. Event Delegation
+   > Event Delegation（事件委派）是一種受惠於 Event Bubbling 而能減少監聽器數目的方法。

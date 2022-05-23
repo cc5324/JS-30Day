@@ -24,11 +24,13 @@ function checkSlide() {
 function debounce(func, wait = 20, immediate = true) {
   let timeout;
   return function () {
-    const context = this,
-      args = arguments;
+    const context = this;
+    const args = arguments;
+    // console.log("args", args);
+    // console.log(args === func);
     const later = function () {
       timeout = null;
-      if (!immediate) func.apply(context, args);
+      if (!immediate) func.apply(context, func);
     };
     const callNow = immediate && !timeout;
     clearTimeout(timeout);
@@ -36,3 +38,21 @@ function debounce(func, wait = 20, immediate = true) {
     if (callNow) func.apply(context, args);
   };
 }
+
+// function debounce(func, wait = 20, immediate = true) {
+//   var timeout;
+//   return function () {
+//     var context = this,
+//       args = arguments;
+//     console.log("args", args);
+//     console.log(args === func);
+//     var later = function () {
+//       timeout = null;
+//       if (!immediate) func.apply(context, args);
+//     };
+//     var callNow = immediate && !timeout;
+//     clearTimeout(timeout);
+//     timeout = setTimeout(later, wait);
+//     if (callNow) func.apply(context, args);
+//   };
+// }
